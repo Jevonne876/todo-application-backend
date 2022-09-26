@@ -10,5 +10,6 @@ public interface UserService {
 
     User register(String firstName, String lastName, String username, String email, String password);
 
+    User findUserByEmail(String email);
 
 }

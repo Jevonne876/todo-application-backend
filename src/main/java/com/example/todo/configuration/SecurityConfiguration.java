@@ -1,5 +1,6 @@
 package com.example.todo.configuration;
 
+import com.example.todo.constant.SecurityConstant;
 import com.example.todo.filter.JwtAccessDeniedHandler;
 import com.example.todo.filter.JwtAuthenticationEntryPoint;
 import com.example.todo.filter.JwtAuthorizationFilter;
@@ -21,6 +22,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static com.example.todo.constant.SecurityConstant.PUBLIC_URLS;
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
 @EnableWebSecurity
@@ -61,7 +63,7 @@ public class SecurityConfiguration {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(PUBLIC_URLS)
+                .antMatchers(SecurityConstant.PUBLIC_URLS)
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -69,7 +71,9 @@ public class SecurityConfiguration {
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
+
         return httpSecurity.build();
+
     }
 
     @Bean
